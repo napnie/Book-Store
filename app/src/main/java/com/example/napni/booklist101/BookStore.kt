@@ -13,7 +13,7 @@ import java.net.URL
 import java.nio.charset.StandardCharsets
 
 class BookStore: BookRepository() {
-    lateinit var books : ArrayList<Book>
+//    lateinit var books : ArrayList<Book>
     lateinit var json_string: String
     val book_url = "https://theory.cpe.ku.ac.th/~jittat/courses/sw-spec/ebooks/books.json"
 
@@ -37,6 +37,9 @@ class BookStore: BookRepository() {
     }
 
     override fun getBook(): ArrayList<Book> {
+        if( books == null ) {
+            books = ArrayList()
+        }
         return books
     }
 

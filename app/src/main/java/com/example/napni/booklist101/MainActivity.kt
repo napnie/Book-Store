@@ -28,10 +28,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun loadButtonClicked(view: View) {
-//        book_repo.loadAllBooks()
-//        presenter.start()
-//        setBookList(book_repo.getBook() )
-        adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, book_repo.getBook() )
+        lateinit var book_list : ArrayList<Book>
+        if( search_book.text.toString().isEmpty() ) {
+            book_list = book_repo.getBook()
+        } else {
+            book_list = book_repo.seach(search_book.text.toString() )
+        }
+
+        adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, book_list )
         list_item.adapter = adapter
         adapter?.notifyDataSetChanged()
     }
