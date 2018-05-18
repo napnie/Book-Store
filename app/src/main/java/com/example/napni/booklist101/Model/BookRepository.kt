@@ -29,6 +29,8 @@ abstract class BookRepository : Observable() {
                 searched.add(it)
             }
         }
+        setChanged()
+        notifyObservers(searched)
         return searched
     }
 }

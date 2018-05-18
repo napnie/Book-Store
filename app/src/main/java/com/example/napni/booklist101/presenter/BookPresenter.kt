@@ -1,5 +1,6 @@
 package com.example.napni.booklist101.presenter
 
+import com.example.napni.booklist101.Model.Book
 import com.example.napni.booklist101.Model.BookRepository
 import java.util.*
 
@@ -13,7 +14,12 @@ class BookPresenter(val view: BookView,
 
     override fun update(p0: Observable?, p1: Any?) {
         if( p0 == repository) {
-            view.setBookList(repository.getBook())
+            if( p1 != null) {
+                val search = p1 as ArrayList<Book>
+                view.setBookList(search)
+            } else {
+                view.setBookList(repository.getBook())
+            }
         }
     }
 }
