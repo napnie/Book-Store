@@ -27,11 +27,11 @@ class BookStore: BookRepository() {
         val result = JSONArray(json_string)
 
         books = ArrayList()
-//        (0..(result.length()-1)).forEach { it ->
-//            var jo = result.getJSONObject(it)
-//            books.add(Book(jo.getString("title"), jo.getInt("id"), jo.getDouble("price"),
-//                    jo.getInt("pub_year"), jo.getString("img_url")))
-//        }
+        (0..(result.length()-1)).forEach { it ->
+            var jo = result.getJSONObject(it)
+            books.add(Book(jo.getString("title"), jo.getInt("id"), jo.getDouble("price"),
+                    jo.getInt("pub_year"), jo.getString("img_url")))
+        }
     }
 
     inner class BookLoader : AsyncTask<String, String, String>() {

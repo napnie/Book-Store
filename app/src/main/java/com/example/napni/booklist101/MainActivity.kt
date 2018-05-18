@@ -4,12 +4,8 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
-import android.widget.ListView
 import com.example.napni.booklist101.Model.Book
 import com.example.napni.booklist101.Model.BookRepository
-import com.example.napni.booklist101.Model.MockBookRepository
-import com.example.napni.booklist101.presenter.BookPresenter
-import com.example.napni.booklist101.presenter.BookView
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -29,15 +25,19 @@ class MainActivity : AppCompatActivity() {
 
     fun loadButtonClicked(view: View) {
         lateinit var book_list : ArrayList<Book>
-        if( search_book.text.toString().isEmpty() ) {
+        if( search_box.text.toString().isEmpty() ) {
             book_list = book_repo.getBook()
         } else {
-            book_list = book_repo.seach(search_book.text.toString() )
+            book_list = book_repo.seach(search_box.text.toString() )
         }
 
         adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, book_list )
         list_item.adapter = adapter
         adapter?.notifyDataSetChanged()
+    }
+
+    fun goAccountClicked(view:View) {
+
     }
 
 }
