@@ -1,8 +1,10 @@
 package com.example.napni.booklist101
 
 import com.example.napni.booklist101.Model.Book
+import java.util.*
+import kotlin.collections.ArrayList
 
-object BookStoreAccount {
+object BookStoreAccount : Observable() {
 
     private var balance : Double
     private var cart : ArrayList<Book>
@@ -16,11 +18,15 @@ object BookStoreAccount {
 
     fun deposit(fund : Double) {
         balance += fund
+        setChanged()
+        notifyObservers()
     }
 
     fun withdraw(withdraw: Double) : Boolean {
         if( balance >= withdraw) {
             balance -= withdraw
+            setChanged()
+            notifyObservers()
             return true
         }
         return false
@@ -32,6 +38,8 @@ object BookStoreAccount {
 
     fun addBook(book : Book) {
         cart.add(book)
+        setChanged()
+        notifyObservers()
     }
 
     fun checkOut(): Boolean {
@@ -41,9 +49,18 @@ object BookStoreAccount {
             balance -= totalPrice
             bookshelf.addAll(cart)
             cart.clear()
+
+            setChanged()
+            notifyObservers()
             return true
         }
         return false
+    }
+
+    fun getCart() : ArrayList<Book> {
+        var cart_clone = ArrayList<Book>()
+        cart_clone.addAll(cart)
+        return cart_clone
     }
 
     fun getShelf(): ArrayList<Book> {
