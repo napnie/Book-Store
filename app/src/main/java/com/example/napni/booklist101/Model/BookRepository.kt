@@ -8,7 +8,13 @@ abstract class BookRepository : Observable() {
     lateinit var books: ArrayList<Book>
 
     abstract fun loadAllBooks()
-    abstract fun getBook(): ArrayList<Book>
+
+    open fun getBook(): ArrayList<Book> {
+        if( books == null ) {
+            books = ArrayList()
+        }
+        return books
+    }
 
     fun seach(name: String): ArrayList<Book> {
         val searched = ArrayList<Book>()
@@ -23,6 +29,8 @@ abstract class BookRepository : Observable() {
                 searched.add(it)
             }
         }
+        setChanged()
+        notifyObservers(searched)
         return searched
     }
 }

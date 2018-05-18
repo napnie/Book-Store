@@ -3,47 +3,38 @@ package com.example.napni.booklist101
 import android.os.AsyncTask
 import com.example.napni.booklist101.Model.Book
 import com.example.napni.booklist101.Model.BookRepository
-import com.google.gson.JsonParser
-import java.io.BufferedReader
-import java.io.IOException
-import java.io.InputStream
-import java.io.InputStreamReader
-import java.net.MalformedURLException
+import org.json.JSONArray
 import java.net.URL
-import java.nio.charset.StandardCharsets
 
 class BookStore: BookRepository() {
 //    lateinit var books : ArrayList<Book>
     lateinit var json_string: String
     val book_url = "https://theory.cpe.ku.ac.th/~jittat/courses/sw-spec/ebooks/books.json"
+    var isLoad = false
 
     override fun loadAllBooks() {
-        val bx = BxLoaderTask()
-        bx.execute()
+        val bx = BookLoader()
+        if(!isLoad) {
+            bx.execute()
+            isLoad = true
+        } else {
+            setChanged()
+            notifyObservers()
+        }
     }
 
     fun initBooks() {
-        val result = JsonParser().parse(json_string).asJsonArray
+        val result = JSONArray(json_string)
 
         books = ArrayList()
-        for( book_element in result) {
-            val book_object = book_element.asJsonObject
-            books.add( Book(book_object.get("title").asString,
-                    book_object.get("id").asInt,
-                    book_object.get("price").asDouble,
-                    book_object.get("pub_year").asInt,
-                    book_object.get("img_url").asString ) )
+        (0..(result.length()-1)).forEach { it ->
+            var jo = result.getJSONObject(it)
+            books.add(Book(jo.getString("title"), jo.getInt("id"), jo.getDouble("price"),
+                    jo.getInt("pub_year"), jo.getString("img_url")))
         }
     }
 
-    override fun getBook(): ArrayList<Book> {
-        if( books == null ) {
-            books = ArrayList()
-        }
-        return books
-    }
-
-    inner class BxLoaderTask : AsyncTask<String, String, String>() {
+    inner class BookLoader : AsyncTask<String, String, String>() {
 
         override fun doInBackground(vararg p0: String?): String {
             val url = URL(book_url)

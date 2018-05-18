@@ -18,6 +18,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".AccountActivity">
+        </activity>
+
+        <activity android:name=".Book_Info_Activity">
+        </activity>
+
     </application>
 
 </manifest>
