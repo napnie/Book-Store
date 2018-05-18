@@ -43,13 +43,13 @@ class AccountActivity : AppCompatActivity(), AccountView {
     override fun updateCart(cart: ArrayList<Book>) {
         val adapter = ArrayAdapter<Book>(this, android.R.layout.simple_list_item_1, cart )
         cart_view.adapter = adapter
-        adapter?.notifyDataSetChanged()
+        adapter.notifyDataSetChanged()
     }
 
     override fun updateShelf(shelf: ArrayList<Book>) {
         val adapter = ArrayAdapter<Book>(this, android.R.layout.simple_list_item_1, shelf )
         shelf_view.adapter = adapter
-        adapter?.notifyDataSetChanged()
+        adapter.notifyDataSetChanged()
     }
 
 

@@ -4,8 +4,10 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import com.example.napni.booklist101.Model.Book
+import com.example.napni.booklist101.Model.BookAdapter
 import com.example.napni.booklist101.Model.BookRepository
 import com.example.napni.booklist101.presenter.BookPresenter
 import com.example.napni.booklist101.presenter.BookView
@@ -20,7 +22,7 @@ class MainActivity : AppCompatActivity(), BookView {
     lateinit var presenter: BookPresenter
 
     override fun setBookList(books: ArrayList<Book>) {
-        adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, books )
+        adapter = BookAdapter(this, books )
         list_item.adapter = adapter
         adapter?.notifyDataSetChanged()
     }
@@ -32,6 +34,15 @@ class MainActivity : AppCompatActivity(), BookView {
         book_repo = BookStore()
         presenter = BookPresenter(this, book_repo)
         presenter.start()
+
+        list_item.onItemClickListener = object : AdapterView.OnItemClickListener {
+            override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                var book = list_item.adapter.getItem(position) as Book
+                val intent = Intent(this@MainActivity, Book_Info_Activity::class.java)
+                intent.putExtra("book", book.toBuddle())
+                startActivity(intent)
+            }
+        }
     }
 
     fun loadButtonClicked(view: View) {
