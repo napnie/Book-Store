@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import com.example.napni.booklist101.Model.Book
+import com.example.napni.booklist101.Model.BookAdapter
 import com.example.napni.booklist101.presenter.AccountPresenter
 import com.example.napni.booklist101.presenter.AccountView
 import kotlinx.android.synthetic.main.account.*
@@ -41,13 +42,13 @@ class AccountActivity : AppCompatActivity(), AccountView {
     }
 
     override fun updateCart(cart: ArrayList<Book>) {
-        val adapter = ArrayAdapter<Book>(this, android.R.layout.simple_list_item_1, cart )
+        val adapter = BookAdapter(this, cart )
         cart_view.adapter = adapter
         adapter.notifyDataSetChanged()
     }
 
     override fun updateShelf(shelf: ArrayList<Book>) {
-        val adapter = ArrayAdapter<Book>(this, android.R.layout.simple_list_item_1, shelf )
+        val adapter = BookAdapter(this, shelf )
         shelf_view.adapter = adapter
         adapter.notifyDataSetChanged()
     }
@@ -56,6 +57,13 @@ class AccountActivity : AppCompatActivity(), AccountView {
     fun doneClicked(view: View) {
         setResult(Activity.RESULT_OK)
         finish()
+    }
+
+    fun checkoutClicked(view: View) {
+        if( BookStoreAccount.checkOut() )
+            Toast.makeText(this, "Checkout!", Toast.LENGTH_SHORT).show()
+        else
+            Toast.makeText(this, "Insufficient Fund!", Toast.LENGTH_SHORT).show()
     }
 
 }
