@@ -9,11 +9,17 @@ object BookStoreAccount : Observable() {
     private var balance : Double
     private var cart : ArrayList<Book>
     private var bookshelf : ArrayList<Book>
+    private var store : ArrayList<Book>
 
     init {
         balance = 0.0
         cart = ArrayList()
         bookshelf = ArrayList()
+        store = ArrayList()
+    }
+
+    fun setStore(store : ArrayList<Book>) {
+        this.store = store
     }
 
     fun deposit(fund : Double) {
@@ -36,7 +42,15 @@ object BookStoreAccount : Observable() {
         return balance
     }
 
-    fun addBook(book : Book) {
+    fun addBook(id : Int) {
+        lateinit var book : Book
+        for(b in store ) {
+            if( b.id == id) {
+                book = b
+                break
+            }
+        }
+
         cart.add(book)
         setChanged()
         notifyObservers()

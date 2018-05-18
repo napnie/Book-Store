@@ -14,6 +14,7 @@ class Book(val title: String,
 
     fun toBuddle() : Bundle {
         val bundle = Bundle()
+
         bundle.putString("title", title)
         bundle.putInt("id", id)
         bundle.putDouble("price", price)
